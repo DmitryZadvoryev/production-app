@@ -1,0 +1,13 @@
+package ru.zadvoryev.productionapp;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ProductionappApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(ProductionappApplication.class, args);
+    }
+
+}

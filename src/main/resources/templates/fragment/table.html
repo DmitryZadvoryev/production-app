@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:fragment="table(line, page)">
+    <table class="table table-sm table-striped table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col"> Дата</th>
+            <th scope="col"> Начало</th>
+            <th scope="col"> Окончание</th>
+            <th scope="col"> Заказчик</th>
+            <th scope="col"> Наименование изделия</th>
+            <th scope="col"> Вариант</th>
+            <th scope="col"> Сторона</th>
+            <th scope="col"> Количество</th>
+            <th scope="col"> Исполнитель</th>
+            <th th:if="${#authentication.authorities.contains(admin)}"
+                scope="col"> Редактировать / Удалить
+            </th>
+        </tr>
+        </thead>
+        <tbody class="overflow-auto">
+        <tr th:if="${page.isEmpty()}">
+            <td colspan="10" align="center"><h3>Нет записей</h3></td>
+        </tr>
+        <tr th:each="record : ${page.content}">
+           <!-- <td><span th:text="${#temporals.format(record.date)}"></span></td>-->
+             <td><span th:text="${#temporals.format(record.date,'dd-MM-yyyy')}"></span></td>
+
+            <td><span th:text="${record.startTime}"> </span></td>
+            <td><span th:text="${record.endTime}"> </span></td>
+            <td><span th:text="${record.nameOfOrganization}">  </span></td>
+            <td><span th:text="${record.nameOfProduct}"></span></td>
+            <td><span th:text="${record.variant}"></span></td>
+            <td><span th:text="${record.side}"></span></td>
+            <td><span th:text="${record.quantity}"></span></td>
+            <td>
+                <span th:text="${record.surname}"></span>
+                <span th:text="${record.name}"></span>
+            </td>
+            <td th:if="${#authentication.authorities.contains(admin)}">
+                <a th:href="@{/lines/line/{line}/record-update/{id}(line=${line.id}, id=${record.id})}">Редактировать</a>
+                <a th:href="@{/lines/line/{line}/record-delete/{id}(line=${line.id}, id=${record.id})}">Удалить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:insert="fragment/pagination :: pagination (${line},${page})"/>
+
+</div>
+</body>
+</html>

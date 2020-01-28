@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:fragment="navbar">
+        <nav id="navbar" class="navbar navbar-dark shadow p-3 bg-primary fixed-top">
+            <a class="navbar-brand" href="/">Главная страница</a>
+            <span sec:authorize="isAuthenticated()">
+                <span><a>Пользователь:</a><a th:text="${#authentication.name}"></a></span>
+                <span><a th:text="${#authentication.authorities}"></a></span>
+            </span>
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Выход"/>
+            </form>
+        </nav>
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<head>
+    <link rel="stylesheet" href="/static/style.css" >
+    <link rel="stylesheet" href="/static/bootstrap.min.css" >
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Добавление линиии</title>
+</head>
+<body>
+<div th:insert="fragment/navbar :: navbar"/>
+<div id="content" class="container-fluid">
+    <form action="#" th:action="@{/line-update}" th:object="${line}" method="post">
+
+        <input hidden th:field="*{id}" id="id">
+
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="name">Название линии</label>
+                <input class="form-control" type="text" th:field="*{name}" id="name" placeholder="Название">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <p th:if="${#fields.hasErrors('name')}" class="alert alert-danger"
+                   th:errors="*{name}"></p>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Обновить линию</button>
+    </form>
+</div>
+</body>
+</html>

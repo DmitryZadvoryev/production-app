@@ -1,0 +1,38 @@
+.login-form{
+    padding: 50px;
+    position: fixed; top: 50%; left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+html,
+body {
+    height: 100%;
+}
+#content {
+    z-index: 1000;
+    position: relative;
+    min-height: 100%;
+    padding: 5em;
+}
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.sticky + #navbar {
+    padding-top: 60px;
+}
+#periodAvg{
+    vertical-align: middle;
+    text-align: center;
+}
+td,tr{
+    text-align: center;
+}

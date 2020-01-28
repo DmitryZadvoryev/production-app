@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<div th:insert="fragment/navbar :: navbar"/>
+
+<div id="content" class="container-fluid">
+    <form class="form-row p-3">
+        <input class="form-control col-1 ml-2 mr-2" type="date" name="start" id="start" placeholder="Дата">
+        <input class="form-control col-1 mr-2" type="date" name="end" id="end" placeholder="Дата">
+        <select name="line">
+            <option value=""></option>
+            <option th:each="line : ${lines}" th:text="${line.name}"
+            th:value="${line.id}"
+            ></option>
+        </select>
+        <select name="product">
+            <option value="" ></option>
+            <option th:each=" product : ${distinct}"
+                    th:text="${product.nameOfProduct + ', ' + product.variant + ', ' + product.side}"
+                    th:value="${product.nameOfProduct + ',' + product.variant + ',' + product.side}"></option>
+        </select>
+        <input type="submit" value="Найти">
+    </form>
+
+    <div class="row pt-3">
+        <div class="col">
+            <table class="table table-sm table-striped table-bordered">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Дата</th>
+                    <th scope="col">Среднее значение за час</th>
+                    <th scope="col">Среднее значение за час по выбранному периоду</th>
+                </tr>
+                </thead>
+                <tbody class="overflow-auto">
+                <tr th:each="record : ${records}">
+                    <td><span th:text="${#temporals.format(record.date,'dd-MM-yyyy')}"></span></td>
+                    <td><span th:text="${#numbers.formatDecimal(record.avgQuantityPerHour,2,2)}"> </span></td>
+                    <td id="periodAvg" th:if="${recordStat.count==1}" th:rowspan="${records.size()}"><span th:text="${periodAvg}"> </span></td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>
