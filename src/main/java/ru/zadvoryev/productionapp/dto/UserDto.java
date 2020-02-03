@@ -1,5 +1,7 @@
 package ru.zadvoryev.productionapp.dto;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import ru.zadvoryev.productionapp.data.Role;
 
 import javax.persistence.Column;
@@ -58,6 +60,7 @@ public class UserDto implements Serializable {
         this.username = username;
     }
 
+
     public String getPassword() {
         return password;
     }
@@ -98,7 +101,6 @@ public class UserDto implements Serializable {
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", roles=" + roles +
                 '}';
     }
 }

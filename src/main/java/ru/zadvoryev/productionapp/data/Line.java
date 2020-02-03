@@ -14,8 +14,6 @@ public class Line implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
-    @NotBlank(message = "Заполните поле!")
     @Column(name = "line_name", nullable = false, unique = true)
     String name;
 
@@ -69,7 +67,6 @@ public class Line implements Serializable {
         return "Line{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", records=" + records +
                 '}';
     }
 }

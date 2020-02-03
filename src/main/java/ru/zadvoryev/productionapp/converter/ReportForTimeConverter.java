@@ -1,11 +1,23 @@
-package ru.zadvoryev.productionapp.util;
+package ru.zadvoryev.productionapp.converter;
 
+import org.springframework.stereotype.Component;
 import ru.zadvoryev.productionapp.data.Record;
+import ru.zadvoryev.productionapp.dto.ReportForTimeDto;
 
-import java.util.function.Function;
+@Component
+public class ReportForTimeConverter extends Converter<ReportForTimeDto, Record> {
 
-public class ReportForTimeConverter extends Converter<ReportForTimeConverter, Record> {
-    public ReportForTimeConverter(Function<ReportForTimeConverter, Record> fromDto, Function<Record, ReportForTimeConverter> fromEntity) {
-        super(fromDto, fromEntity);
+    public ReportForTimeConverter() {
+        super(ReportForTimeConverter::convertToDto, ReportForTimeConverter::convertToEntity);
     }
+
+    private static ReportForTimeDto convertToEntity(Record record) {
+        ReportForTimeDto reportForTimeDto = new ReportForTimeDto(record);
+        return reportForTimeDto;
+    }
+
+    private static Record convertToDto(ReportForTimeDto reportForTimeDto) {
+        throw new UnsupportedOperationException();
+    }
+
 }

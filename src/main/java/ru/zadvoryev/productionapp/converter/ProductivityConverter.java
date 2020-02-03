@@ -1,4 +1,4 @@
-package ru.zadvoryev.productionapp.util;
+package ru.zadvoryev.productionapp.converter;
 
 import org.springframework.stereotype.Component;
 import ru.zadvoryev.productionapp.data.Record;

@@ -31,6 +31,11 @@ public class MainController {
         return Role.ADMIN;
     }
 
+    @ModelAttribute("superior")
+    public Role getSuperior() {
+        return Role.SUPERIOR;
+    }
+
 
     @GetMapping
     public String list(Model model) {
@@ -59,7 +64,7 @@ public class MainController {
         return "redirect:/";
     }
 
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/line-update/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         LineDto line = lineService.getOne(id);
@@ -67,7 +72,7 @@ public class MainController {
         return "/line-update";
     }
 
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/line-update")
     public String update(@Valid @ModelAttribute("line") LineDto line,
                          BindingResult bindingResult) {
@@ -78,7 +83,7 @@ public class MainController {
         return "redirect:/";
     }
 
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/line-delete/{id}")
     public String delete(@PathVariable("id") long id) {
         lineService.delete(id);

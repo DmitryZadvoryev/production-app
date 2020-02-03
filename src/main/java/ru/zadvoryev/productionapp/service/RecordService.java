@@ -4,19 +4,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ru.zadvoryev.productionapp.converter.ReportForTimeConverter;
 import ru.zadvoryev.productionapp.data.Line;
 import ru.zadvoryev.productionapp.data.Record;
+import ru.zadvoryev.productionapp.data.Role;
 import ru.zadvoryev.productionapp.data.User;
 import ru.zadvoryev.productionapp.dto.DistinctProductDto;
 import ru.zadvoryev.productionapp.dto.ProductivityDto;
 import ru.zadvoryev.productionapp.dto.RecordDto;
+import ru.zadvoryev.productionapp.dto.ReportForTimeDto;
 import ru.zadvoryev.productionapp.repository.LineRepository;
 import ru.zadvoryev.productionapp.repository.RecordRepository;
-import ru.zadvoryev.productionapp.util.ProductivityConverter;
-import ru.zadvoryev.productionapp.util.RecordConverter;
+import ru.zadvoryev.productionapp.converter.ProductivityConverter;
+import ru.zadvoryev.productionapp.converter.RecordConverter;
 
 import javax.persistence.NoResultException;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,6 +35,9 @@ public class RecordService {
 
     @Autowired
     ProductivityConverter productivityConverter;
+
+    @Autowired
+    ReportForTimeConverter reportForTimeConverter;
 
     final RecordConverter recordConverter;
 
@@ -72,8 +79,11 @@ public class RecordService {
         }
     }
 
-    public void udpate(RecordDto recordDto) {
+    public void update(RecordDto recordDto) {
         Record record = recordConverter.convertFromDto(recordDto);
+        Record recordById = recordRepository.getRecordById(recordDto.getId());
+        record.setAuthor(recordById.getAuthor());
+        record.setLine(recordById.getLine());
         recordRepository.save(record);
     }
 
@@ -83,6 +93,7 @@ public class RecordService {
     }
 
     public void create(RecordDto recordDto, User author, long id) {
+
         Record record = recordConverter.convertFromDto(recordDto);
         Line line = lineRepository.getOne(id);
         record.setAuthor(author);
@@ -107,5 +118,17 @@ public class RecordService {
         } catch (NoResultException e) {
             return Collections.emptyList();
         }
+    }
+
+    /*public List<ReportForTimeDto> getRecordsForReport(long id, LocalDate start, LocalDate end){
+        List<Record> recordsForReport = recordRepository.getRecordsForReport(id, start, end);
+        List<ReportForTimeDto> fromEntities = reportForTimeConverter.createFromEntities(recordsForReport);
+        return fromEntities;
+    }*/
+
+    public List<ReportForTimeDto> getRecordsForReport(LocalDate start, LocalDate end) {
+        List<Record> recordsForReport = recordRepository.getRecordsForReport(start, end);
+        List<ReportForTimeDto> fromEntities = reportForTimeConverter.createFromEntities(recordsForReport);
+        return fromEntities;
     }
 }

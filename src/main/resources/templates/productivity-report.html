@@ -32,7 +32,7 @@
         <div class="col">
             <table class="table table-sm table-striped table-bordered">
                 <thead class="thead-dark">
-                <tr>
+                <tr th:if="${records != null}">
                     <th scope="col">Дата</th>
                     <th scope="col">Среднее значение за час</th>
                     <th scope="col">Среднее значение за час по выбранному периоду</th>
@@ -42,7 +42,7 @@
                 <tr th:each="record : ${records}">
                     <td><span th:text="${#temporals.format(record.date,'dd-MM-yyyy')}"></span></td>
                     <td><span th:text="${#numbers.formatDecimal(record.avgQuantityPerHour,2,2)}"> </span></td>
-                    <td id="periodAvg" th:if="${recordStat.count==1}" th:rowspan="${records.size()}"><span th:text="${periodAvg}"> </span></td>
+                    <td id="periodAvg" th:if="${recordStat.count==1}" th:rowspan="${records.size()}"><span th:text="${#numbers.formatDecimal(periodAvg,2,2)}"> </span></td>
                 </tr>
 
                 </tbody>
@@ -50,7 +50,6 @@
         </div>
     </div>
 </div>
-<div id="chartContainer" style="height: 370px; width: 100%;"></div>
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
 </body>
 </html>

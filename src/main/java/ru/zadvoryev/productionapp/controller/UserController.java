@@ -25,6 +25,7 @@ public class UserController {
     }
 
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public String list(Model model) {
         List<UserDto> users = userService.getAllUsers();
@@ -32,6 +33,7 @@ public class UserController {
         return "users/users";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/user-create")
     public String showCreateForm(UserDto user, Model model) {
         model.addAttribute("user", user);
@@ -39,7 +41,7 @@ public class UserController {
         return "users/user-create";
     }
 
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/user-create")
     public String create(@RequestParam(value = "role", required = false) Collection<Role> roles,
                          @Valid @ModelAttribute("user") UserDto user,
@@ -52,6 +54,7 @@ public class UserController {
         return "redirect:/users";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/user-update/{id}")
     public String updateUserForm(@PathVariable("id") Long id, Model model) {
         UserDto user = userService.findById(id);
@@ -60,6 +63,7 @@ public class UserController {
         return "users/user-update";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/user-update")
     public String updateUser(@RequestParam(value = "role", required = false) Collection<Role> roles,
                              @Valid @ModelAttribute("user") UserDto user,
@@ -72,6 +76,8 @@ public class UserController {
         return "redirect:/users";
     }
 
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/user-delete/{id}")
     public String delete(@PathVariable("id") long id) {
         userService.delete(id);

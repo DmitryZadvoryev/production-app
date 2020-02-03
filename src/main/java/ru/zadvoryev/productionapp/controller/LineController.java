@@ -13,19 +13,19 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.zadvoryev.productionapp.data.Line;
-import ru.zadvoryev.productionapp.data.Record;
 import ru.zadvoryev.productionapp.data.Role;
 import ru.zadvoryev.productionapp.data.User;
 import ru.zadvoryev.productionapp.dto.RecordDto;
 import ru.zadvoryev.productionapp.repository.LineRepository;
 import ru.zadvoryev.productionapp.repository.RecordRepository;
 import ru.zadvoryev.productionapp.service.RecordService;
+import ru.zadvoryev.productionapp.converter.UserConverter;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
 
 @Controller
-@RequestMapping("/lines/line/{lineId}")
+@RequestMapping("/lines/line/")
 public class LineController {
 
 
@@ -38,8 +38,11 @@ public class LineController {
     @Autowired
     RecordService recordService;
 
+    @Autowired
+    UserConverter converter;
 
-    @GetMapping
+
+    @GetMapping("{lineId}")
     public String list(@PathVariable("lineId") long id,
                        @RequestParam(name = "start", required = false)
                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
@@ -78,51 +81,52 @@ public class LineController {
         return "lines/line";
     }
 
-    @GetMapping("record-create")
-    public String showCreateForm(@PathVariable("lineId") long id, Record record, Model model) {
-        model.addAttribute("id", id);
-        model.addAttribute("record", record);
+   @GetMapping("{lineId}/record-create")
+    public String showCreateForm(Model model, @PathVariable("lineId") String lineId) {
+       model.addAttribute("record", new RecordDto());
+     //  model.addAttribute("lineId", lineId);
         return "lines/record-create";
     }
 
-    @PostMapping("record-create")
+    @PostMapping("{lineId}/record-create")
     public String create(@AuthenticationPrincipal User user,
                          @PathVariable("lineId") long id,
-                         @Valid @ModelAttribute("record") Record record,
+                         @Valid @ModelAttribute("record") RecordDto record,
                          BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "lines/record-create";
         }
-        record.setAuthor(user);
-        Line line = lineRepository.getOne(id);
-        record.setLine(line);
-        recordRepository.save(record);
-        //recordService.create(record,user,id);
 
-        return "redirect:/lines/line/" + record.getLine().getId();
+        recordService.create(record,user,id);
+
+        return "redirect:/lines/line/" + id;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("record-update/{id}")
-    public String updateUserForm(@PathVariable("id") Long id, Model model) {
-        Record record = recordRepository.getRecordById(id);
-        //RecordDto record = recordService.getOne(id);
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERIOR')")
+    @GetMapping("{lineId}/record-update/{id}")
+    public String updateRecordForm(@PathVariable("lineId") String lineId, @PathVariable("id") Long id, Model model) {
+        RecordDto record = recordService.getOne(id);
         model.addAttribute("record", record);
+        model.addAttribute("lineid", lineId);
+
         return "lines/record-update";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("record-update")
-    public String updateUser(@Valid @ModelAttribute("record") Record record, BindingResult bindingResult) {
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERIOR')")
+    @PostMapping("{lineId}/record-update/{id}")
+    public String updateRecord(@PathVariable("lineId") String lineId ,
+                               @Valid @ModelAttribute RecordDto record,
+                               BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "lines/record-update";
         }
-        recordRepository.save(record);
-        //recordService.udpate(record);
-        return "redirect:/lines/line/{lineId}";
+        recordService.update(record);
+        model.addAttribute("record", record);
+        return "redirect:/lines/line/" + lineId;
     }
 
-    @GetMapping("record-delete/{id}")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERIOR')")
+    @GetMapping("{lineId}/record-delete/{id}")
     public String delete(@PathVariable("id") long id) {
         recordRepository.deleteById(id);
         return "redirect:/lines/line/{lineId}";

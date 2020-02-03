@@ -1,6 +1,5 @@
 package ru.zadvoryev.productionapp.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.zadvoryev.productionapp.data.User;
 import ru.zadvoryev.productionapp.dto.UserDto;
 import ru.zadvoryev.productionapp.repository.UserRepository;
-import ru.zadvoryev.productionapp.util.UserConverter;
+import ru.zadvoryev.productionapp.converter.UserConverter;
 
 import javax.persistence.NoResultException;
 import java.util.Collections;
@@ -31,31 +30,6 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
         return userRepository.findUserByUsername(username);
     }
-/**
-    public List<User> getAllUsers() {
-        try {
-            return userRepository.findAll();
-        } catch (NoResultException e) {
-            return Collections.emptyList();
-        }
-    }
-
-    public User findById(long id) {
-        try {
-            return userRepository.getOne(id);
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
-
-    public void createOrUpdate(User user) {
-        userRepository.save(user);
-    }
-
-    public void delete(long id) {
-        userRepository.deleteById(id);
-    }
- */
 
 public List<UserDto> getAllUsers() {
     try {

@@ -1,4 +1,4 @@
-package ru.zadvoryev.productionapp.util;
+package ru.zadvoryev.productionapp.converter;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

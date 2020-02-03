@@ -19,9 +19,14 @@ public interface RecordRepository extends CrudRepository<Record, Long> {
     @Query(value = "select record.* from record where line_id = ?1", nativeQuery = true)
     Page<Record> getRecordsPageable(Long id, Pageable pageable);
 
-    @Query(value = "select record.* from record where line_id = ?1 " +
+    /*@Query(value = "select record.* from record where line_id = ?1 " +
             "and record.date between  ?2 and ?3", nativeQuery = true)
     List<Record> getRecordsForReport(Long id, LocalDate start,
+                                     LocalDate end);*/
+
+    @Query(value = "select record.* from record where " +
+            "record.date between  ?1 and ?2", nativeQuery = true)
+    List<Record> getRecordsForReport(LocalDate start,
                                      LocalDate end);
 
     @Query(value = "select record.* from record " +

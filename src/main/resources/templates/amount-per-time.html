@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <link rel="stylesheet" href="/static/style.css" >
-    <link rel="stylesheet" href="/static/bootstrap.min.css" >
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
@@ -11,13 +11,12 @@
 <div id="content" class="container-fluid">
     <form>
         <div class="form-row p-3">
-            <input class="form-control col-1 ml-2 mr-2" type="date" name="start" id="start" placeholder="Дата">
-            <input class="form-control col-1 mr-2" type="date" name="end" id="end" placeholder="Дата">
+            <input class="form-control col-1 ml-2 mr-2" th:value="${start}" type="date" name="start" id="start" placeholder="Дата">
+            <input class="form-control col-1 mr-2" th:value="${end}" type="date" name="end" id="end" placeholder="Дата">
             <input type="submit" value="Найти">
         </div>
     </form>
-
-   <div th:each="item : ${list}">
+    <div th:each="item : ${list}">
         <table class="table table-sm table-striped table-bordered">
             <thead th:if="${!item.isEmpty()}" class="thead-dark">
             <tr>
@@ -36,10 +35,10 @@
                 <td><span th:text="${record.quantity}"/></td>
                 <td><span th:text="${record.side}"/></td>
             </tr>
-            </tbody>
         </table>
     </div>
 </div>
 <div th:insert="fragment/footer :: footer"/>
+
 </body>
 </html>

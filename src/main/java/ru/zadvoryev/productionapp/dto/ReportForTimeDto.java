@@ -1,8 +1,10 @@
 package ru.zadvoryev.productionapp.dto;
 
+import org.jetbrains.annotations.NotNull;
 import ru.zadvoryev.productionapp.data.Record;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 public class ReportForTimeDto implements Serializable {
 
@@ -98,4 +100,5 @@ public class ReportForTimeDto implements Serializable {
                 ", lineName='" + lineName + '\'' +
                 '}';
     }
+
 }

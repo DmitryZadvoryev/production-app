@@ -21,28 +21,22 @@ public class Record implements Serializable {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name = "date", nullable = false)
-    @NotNull(message = "Введите дату!")
     private LocalDate date;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     @Column(name = "start_time", nullable = false)
-    @NotNull(message = "Введите время!")
     private LocalTime startTime;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
-    @NotNull(message = "Введите время!")
     @Column(name = "end_time", nullable = false)
     private LocalTime endTime;
 
-    @NotBlank(message = "Заполните поле!")
     @Column(name = "name_of_organization", nullable = false)
     private String nameOfOrganization;
 
-    @NotBlank(message = "Заполните поле!")
     @Column(name = "name_of_product", nullable = false)
     private String nameOfProduct;
 
-    @NotBlank(message = "Заполните поле!")
     @Column(name = "variant", nullable = false)
     private String variant;
 
@@ -50,7 +44,6 @@ public class Record implements Serializable {
     private String side;
 
 
-    @Min(value = 1, message = "Заполните поле!")
     @Column(name = "quantity")
     private int quantity ;
 

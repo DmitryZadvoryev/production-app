@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service;
 import ru.zadvoryev.productionapp.data.Line;
 import ru.zadvoryev.productionapp.dto.LineDto;
 import ru.zadvoryev.productionapp.repository.LineRepository;
-import ru.zadvoryev.productionapp.util.Converter;
-import ru.zadvoryev.productionapp.util.LineConverter;
+import ru.zadvoryev.productionapp.converter.Converter;
+import ru.zadvoryev.productionapp.converter.LineConverter;
 
 import javax.persistence.NoResultException;
 import java.util.Collections;
