@@ -40,5 +40,6 @@ public abstract class Converter<T, U> {
         int total = (int) entities.getTotalElements();
         return new PageImpl<T>(entities.stream().map(this::convertFromEntity)
                 .collect(Collectors.toList()), pageable, total);
+
     }
 }

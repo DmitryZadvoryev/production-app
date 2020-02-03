@@ -12,12 +12,13 @@ public class LineConverter extends Converter<LineDto, Line> {
     }
 
     private static LineDto convertToDto(Line line) {
-        return new LineDto(line.getId(), line.getName());
+        return new LineDto(line.getId(), line.getName(), line.getRecords());
     }
 
     private static Line convertToEntity(LineDto lineDto) {
         Line line = new Line();
         line.setName(lineDto.getName());
+        line.setRecords(lineDto.getRecords());
         return line;
     }
 }
