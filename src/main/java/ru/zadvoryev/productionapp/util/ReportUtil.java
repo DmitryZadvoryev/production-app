@@ -20,7 +20,7 @@ public class ReportUtil {
                 .stream().collect(Collectors.toList());
         for (List<ReportForTimeDto> item : list) {
             List<List<ReportForTimeDto>> sort = item.stream().collect(Collectors.groupingBy(record -> Arrays.asList(
-                    record.getManePr(),
+                    record.getNamePr(),
                     record.getVar(),
                     record.getSide())))
                     .values().stream().collect(Collectors.toList());
@@ -30,6 +30,10 @@ public class ReportUtil {
         }
         return result;
     }
+
+    /**
+     * Метод получает на вход список и суммирует значения поля quantity
+     */
 
     private static List<ReportForTimeDto> sum(List<List<ReportForTimeDto>> list) {
         List<ReportForTimeDto> sum = new ArrayList<>();
@@ -57,5 +61,4 @@ public class ReportUtil {
         }
         return sum;
     }
-
 }

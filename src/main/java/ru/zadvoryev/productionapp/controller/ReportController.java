@@ -22,6 +22,10 @@ import java.util.List;
 
 import static ru.zadvoryev.productionapp.util.ReportUtil.getReport;
 
+/**
+ * Отчеты
+ */
+
 @Controller
 @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERIOR')")
 @RequestMapping("/reports")
@@ -37,16 +41,29 @@ public class ReportController {
     }
 
 
+    /**
+     * @return список всех изделий без дубликатов
+     */
     @ModelAttribute("distinct")
-    public List<DistinctProductDto> getDistinctRecordsList() {
+    public List<DistinctProductDto> getDistinctProductsList() {
         return recordService.getDistinctRecordsList();
     }
 
+    /**
+     * @return список всех линий
+     */
     @ModelAttribute("lines")
     public List<LineDto> getLinesList() {
         return lineService.list();
     }
 
+    /**
+     * Отчет за период от start до end
+     * @param start - начальная дата
+     * @param end - конечная дата
+     * @param model
+     * @return записи от начальной даты до конечной
+     */
 
     @GetMapping("/report-for-time")
     public String report(@RequestParam(name = "start", required = false)
@@ -65,6 +82,16 @@ public class ReportController {
         model.addAttribute("end", end);
         return "amount-per-time";
     }
+
+    /**
+     * Отчет
+     * @param start
+     * @param end
+     * @param line
+     * @param product
+     * @param model
+     * @return
+     */
 
     @GetMapping("/productivity")
     public String report(@RequestParam(name = "start", required = false)

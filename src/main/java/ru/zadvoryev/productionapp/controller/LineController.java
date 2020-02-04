@@ -1,9 +1,7 @@
 package ru.zadvoryev.productionapp.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,36 +10,47 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.zadvoryev.productionapp.data.Line;
 import ru.zadvoryev.productionapp.data.Role;
 import ru.zadvoryev.productionapp.data.User;
+import ru.zadvoryev.productionapp.dto.LineDto;
 import ru.zadvoryev.productionapp.dto.RecordDto;
-import ru.zadvoryev.productionapp.repository.LineRepository;
-import ru.zadvoryev.productionapp.repository.RecordRepository;
+import ru.zadvoryev.productionapp.service.LineService;
 import ru.zadvoryev.productionapp.service.RecordService;
-import ru.zadvoryev.productionapp.converter.UserConverter;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+
 
 @Controller
 @RequestMapping("/lines/line/")
 public class LineController {
 
 
-    @Autowired
-    RecordRepository recordRepository;
+    final RecordService recordService;
 
-    @Autowired
-    LineRepository lineRepository;
+    final LineService lineService;
 
-    @Autowired
-    RecordService recordService;
+    public LineController(RecordService recordService, LineService lineService) {
+        this.recordService = recordService;
+        this.lineService = lineService;
+    }
 
-    @Autowired
-    UserConverter converter;
-
-
+    /**
+     *  Если все параметры null, то возвращается полный список list для линии с id, иначе возвращаются записи
+     *  отфильрованные методом filter например, по фамилии исполнителя
+     *
+     * @param id  - ид линии
+     * @param start - начальная дата
+     * @param end - конечная дата
+     * @param nameOfOrganization - название организации
+     * @param nameOfProduct - наименование изделия
+     * @param variant - вариант исполнения
+     * @param side - сторона изделия
+     * @param surname - фамилия исполнителя
+     * @param pageable - пагинация
+     * @param model
+     * @return line/lines - страница линии со списком изделий,
+     */
     @GetMapping("{lineId}")
     public String list(@PathVariable("lineId") long id,
                        @RequestParam(name = "start", required = false)
@@ -53,12 +62,13 @@ public class LineController {
                        @RequestParam(name = "variant", required = false) String variant,
                        @RequestParam(name = "side", required = false) String side,
                        @RequestParam(name = "surname", required = false) String surname,
-                       @PageableDefault(size = 5, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
+                       @PageableDefault(size = 15) Pageable pageable,
                        Model model) {
 
+        LineDto line = lineService.getOne(id);
         Page<RecordDto> page = null;
 
-        if (start == null || end == null &&
+        if ((start == null || end == null) &&
                 (nameOfOrganization == null || nameOfOrganization.isEmpty()) &&
                 (nameOfProduct == null || nameOfProduct.isEmpty()) &&
                 (variant == null || variant.isEmpty()) &&
@@ -75,19 +85,33 @@ public class LineController {
             page = recordService.filter(id, start, end, nameOfOrganization, nameOfProduct, variant,
                     side, surname, pageable);
         }
-        Line line = lineRepository.getOne(id);
+
         model.addAttribute("page", page);
         model.addAttribute("line", line);
         return "lines/line";
     }
 
-   @GetMapping("{lineId}/record-create")
+    /**
+     * Форма для добавления новой записи
+     *
+     * @param model
+     * @param lineId  - ид линии
+     * @return возвращает форму для добавления новой записи
+     */
+    @GetMapping("{lineId}/record-create")
     public String showCreateForm(Model model, @PathVariable("lineId") String lineId) {
-       model.addAttribute("record", new RecordDto());
-     //  model.addAttribute("lineId", lineId);
+        model.addAttribute("record", new RecordDto());
         return "lines/record-create";
     }
 
+    /**
+     *  Добавление новой записи
+     * @param user - авторизированный пользователь
+     * @param id - ид линии
+     * @param record - класс представлябщий запись
+     * @param bindingResult - валидация
+     * @return перенаправляет страницу с записями для линии с id
+     */
     @PostMapping("{lineId}/record-create")
     public String create(@AuthenticationPrincipal User user,
                          @PathVariable("lineId") long id,
@@ -97,10 +121,18 @@ public class LineController {
             return "lines/record-create";
         }
 
-        recordService.create(record,user,id);
+        recordService.create(record, user, id);
 
         return "redirect:/lines/line/" + id;
     }
+
+    /**
+     * Форма обновления записи
+     * @param lineId - ид линии к которой относятся записи
+     * @param id -  ид записи редактироуемой
+     * @param model
+     * @return страница для обновления
+     */
 
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERIOR')")
     @GetMapping("{lineId}/record-update/{id}")
@@ -112,9 +144,19 @@ public class LineController {
         return "lines/record-update";
     }
 
+    /**
+     * Обновления записи
+     *
+     * @param lineId - ид линии к которой относятся записи
+     * @param record  - класс запись
+     * @param bindingResult - валидация
+     * @param model
+     * @return перенаправляет страницу с записями для линии с id
+     */
+
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERIOR')")
     @PostMapping("{lineId}/record-update/{id}")
-    public String updateRecord(@PathVariable("lineId") String lineId ,
+    public String updateRecord(@PathVariable("lineId") String lineId,
                                @Valid @ModelAttribute RecordDto record,
                                BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
@@ -125,10 +167,15 @@ public class LineController {
         return "redirect:/lines/line/" + lineId;
     }
 
+    /**
+     * Удаление записи
+     * @param id - ид записи
+     * @return перенаправляет страницу с записями для линии с id
+     */
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERIOR')")
     @GetMapping("{lineId}/record-delete/{id}")
     public String delete(@PathVariable("id") long id) {
-        recordRepository.deleteById(id);
+        recordService.delete(id);
         return "redirect:/lines/line/{lineId}";
     }
 

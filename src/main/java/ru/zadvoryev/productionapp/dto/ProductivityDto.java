@@ -1,8 +1,9 @@
 package ru.zadvoryev.productionapp.dto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class ProductivityDto {
+public class ProductivityDto implements Serializable {
 
     private LocalDate date;
 

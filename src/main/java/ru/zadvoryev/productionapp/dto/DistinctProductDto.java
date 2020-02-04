@@ -1,7 +1,9 @@
 package ru.zadvoryev.productionapp.dto;
 
 
-public class DistinctProductDto {
+import java.io.Serializable;
+
+public class DistinctProductDto implements Serializable {
 
     private String nameOfProduct;
 

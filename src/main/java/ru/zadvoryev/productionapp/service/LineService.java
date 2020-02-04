@@ -1,11 +1,11 @@
 package ru.zadvoryev.productionapp.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.zadvoryev.productionapp.converter.LineConverter;
 import ru.zadvoryev.productionapp.data.Line;
 import ru.zadvoryev.productionapp.dto.LineDto;
 import ru.zadvoryev.productionapp.repository.LineRepository;
-import ru.zadvoryev.productionapp.converter.Converter;
-import ru.zadvoryev.productionapp.converter.LineConverter;
 
 import javax.persistence.NoResultException;
 import java.util.Collections;
@@ -16,12 +16,15 @@ public class LineService {
 
     final LineRepository lineRepository;
 
-    public LineService(LineRepository lineRepository) {
+    final LineConverter converter;
+
+    public LineService(LineRepository lineRepository, LineConverter converter) {
         this.lineRepository = lineRepository;
+        this.converter = converter;
     }
 
-    Converter<LineDto, Line> converter = new LineConverter();
 
+    @Transactional
     public List<LineDto> list() {
         try {
             List<Line> all = lineRepository.findAll();
@@ -30,7 +33,7 @@ public class LineService {
             return Collections.emptyList();
         }
     }
-
+    @Transactional
     public LineDto getOne(long id) {
         try {
             Line line = lineRepository.getOne(id);
@@ -39,12 +42,12 @@ public class LineService {
             return null;
         }
     }
-
+    @Transactional
     public void createOrUpdate(LineDto lineDto) {
         Line line = converter.convertFromDto(lineDto);
         lineRepository.save(line);
     }
-
+    @Transactional
     public void delete(long id) {
         lineRepository.deleteById(id);
     }

@@ -14,7 +14,9 @@ import ru.zadvoryev.productionapp.service.LineService;
 import javax.validation.Valid;
 import java.util.List;
 
-
+/**
+ * Cписок линий, добавление, удаление, редактирование
+ */
 @Controller
 @RequestMapping("/")
 public class MainController {
@@ -36,7 +38,9 @@ public class MainController {
         return Role.SUPERIOR;
     }
 
-
+    /*
+        Список всех линий
+    */
     @GetMapping
     public String list(Model model) {
         List<LineDto> lines = lineService.list();
@@ -44,7 +48,9 @@ public class MainController {
         return "main";
     }
 
-
+    /*
+        Переход к форме для созания новой линии
+    */
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/line-create")
     public String showCreateForm(Line line, Model model) {
@@ -52,7 +58,9 @@ public class MainController {
         return "line-create";
     }
 
-
+    /*
+        Создание новой линии
+    */
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/line-create")
     public String create(@Valid @ModelAttribute("line") LineDto line,
@@ -64,6 +72,9 @@ public class MainController {
         return "redirect:/";
     }
 
+    /*
+        Форма для редактирования линии
+    */
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/line-update/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
@@ -72,6 +83,9 @@ public class MainController {
         return "/line-update";
     }
 
+    /*
+        Обновление линии
+    */
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/line-update")
     public String update(@Valid @ModelAttribute("line") LineDto line,
@@ -83,6 +97,9 @@ public class MainController {
         return "redirect:/";
     }
 
+    /*
+        Удаление линии
+    */
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/line-delete/{id}")
     public String delete(@PathVariable("id") long id) {

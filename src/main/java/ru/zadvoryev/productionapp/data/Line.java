@@ -1,14 +1,15 @@
 package ru.zadvoryev.productionapp.data;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Представление линии, линия содержит записи об изготовленной продукции records
+ */
 @Entity
 @Table(name = "line")
-public class Line implements Serializable {
+public class Line {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

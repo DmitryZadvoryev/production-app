@@ -13,6 +13,10 @@ import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
 
+
+/**
+ * Список пользователей, добавление, удаление, редактирование
+ */
 @Controller
 @RequestMapping("users")
 @PreAuthorize("hasAuthority('ADMIN')")
@@ -23,7 +27,6 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping

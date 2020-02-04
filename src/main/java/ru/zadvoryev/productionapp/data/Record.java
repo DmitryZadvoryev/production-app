@@ -3,54 +3,63 @@ package ru.zadvoryev.productionapp.data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
 
-@SuppressWarnings("PMD")
+
+/**
+ * класс предствляет записи об изготовленной продукции
+ */
+
 @Entity
-public class Record implements Serializable {
+public class Record {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    //дата
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name = "date", nullable = false)
     private LocalDate date;
 
+    //время начала сборки
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     @Column(name = "start_time", nullable = false)
     private LocalTime startTime;
 
+    //время окончания сборки
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     @Column(name = "end_time", nullable = false)
     private LocalTime endTime;
 
+    //наименование органиации
     @Column(name = "name_of_organization", nullable = false)
     private String nameOfOrganization;
 
+    //наименование изделия
     @Column(name = "name_of_product", nullable = false)
     private String nameOfProduct;
 
+    //вариант исполнения
     @Column(name = "variant", nullable = false)
     private String variant;
 
+    //сторона изделия
     @Column(name = "side", nullable = false)
     private String side;
 
-
+    //количество
     @Column(name = "quantity")
-    private int quantity ;
+    private int quantity;
 
+    //линия к которой относятся записи
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "line_id", nullable = false)
     Line line;
 
+    //исполнитель, тот кто добавил запись
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false)
     private User author;

@@ -40,7 +40,7 @@ public class ReportForTimeDto implements Serializable {
         this.nameOrg = nameOrg;
     }
 
-    public String getManePr() {
+    public String getNamePr() {
         return manePr;
     }
 

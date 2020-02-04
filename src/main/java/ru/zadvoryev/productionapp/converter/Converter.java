@@ -9,6 +9,12 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Паттерн конвертер
+ * Из entity в dto, и наоборот
+ * @param <T> Entity
+ * @param <U> Dto
+ */
 
 public abstract class Converter<T, U> {
 
