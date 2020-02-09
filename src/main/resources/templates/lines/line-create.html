@@ -9,7 +9,7 @@
 <body>
 <div th:insert="fragment/navbar :: navbar"/>
 <div id="content" class="container-fluid">
-    <form action="#" th:action="@{/line-create}" th:object="${line}" method="post">
+    <form action="#" th:action="@{/lines/line-create}" th:object="${line}" method="post">
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="name">Название линии</label>

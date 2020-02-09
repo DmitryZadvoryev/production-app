@@ -59,8 +59,9 @@ public class ReportController {
 
     /**
      * Отчет за период от start до end
+     *
      * @param start - начальная дата
-     * @param end - конечная дата
+     * @param end   - конечная дата
      * @param model
      * @return записи от начальной даты до конечной
      */
@@ -80,11 +81,12 @@ public class ReportController {
 
         model.addAttribute("start", start);
         model.addAttribute("end", end);
-        return "amount-per-time";
+        return "reports/amount-per-time-report";
     }
 
     /**
      * Отчет
+     *
      * @param start
      * @param end
      * @param line
@@ -125,6 +127,6 @@ public class ReportController {
             model.addAttribute("records", records);
 
         }
-        return "productivity-report";
+        return "reports/productivity-report";
     }
 }

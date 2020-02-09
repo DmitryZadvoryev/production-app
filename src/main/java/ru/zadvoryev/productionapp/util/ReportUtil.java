@@ -34,7 +34,6 @@ public class ReportUtil {
     /**
      * Метод получает на вход список и суммирует значения поля quantity
      */
-
     private static List<ReportForTimeDto> sum(List<List<ReportForTimeDto>> list) {
         List<ReportForTimeDto> sum = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {

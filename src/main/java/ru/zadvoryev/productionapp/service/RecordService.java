@@ -128,6 +128,7 @@ public class RecordService {
         }
     }
 
+    @Transactional
     public List<DistinctProductDto> getDistinctRecordsList() {
         try {
             return recordRepository.getDistinctRecords();
@@ -136,6 +137,7 @@ public class RecordService {
         }
     }
 
+    @Transactional
     public List<ReportForTimeDto> getRecordsForReport(LocalDate start, LocalDate end) {
         try {
             List<Record> recordsForReport = recordRepository.getRecordsBetweenDate(start, end);

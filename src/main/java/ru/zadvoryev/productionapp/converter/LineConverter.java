@@ -17,6 +17,7 @@ public class LineConverter extends Converter<LineDto, Line> {
 
     private static Line convertToEntity(LineDto lineDto) {
         Line line = new Line();
+        line.setId(lineDto.getId());
         line.setName(lineDto.getName());
         line.setRecords(lineDto.getRecords());
         return line;
