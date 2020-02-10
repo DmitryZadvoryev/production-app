@@ -16,8 +16,7 @@
         <select name="line">
             <option value=""></option>
             <option th:each="line : ${lines}" th:text="${line.name}"
-            th:value="${line.id}"
-            ></option>
+            th:value="${line.id}"></option>
         </select>
         <select name="product">
             <option value="" ></option>
@@ -27,7 +26,6 @@
         </select>
         <input type="submit" value="Найти">
     </form>
-
     <div class="row pt-3">
         <div class="col">
             <table class="table table-sm table-striped table-bordered">
