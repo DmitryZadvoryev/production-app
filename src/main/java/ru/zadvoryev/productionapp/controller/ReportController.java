@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.zadvoryev.productionapp.dto.ReportForTimeDto;
-import ru.zadvoryev.productionapp.report.ExcelReportForTimeReport;
+import ru.zadvoryev.productionapp.util.ExcelReportForTimeReport;
 import ru.zadvoryev.productionapp.service.RecordService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -77,10 +77,10 @@ public class ReportController {
                               @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end,
                               HttpServletResponse response) throws IOException {
 
-        List<ReportForTimeDto> recordsForReport = recordService.getRecordsForReport(start, end);
-        List<List<ReportForTimeDto>> report = getReport(recordsForReport);
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment; filename=report_all_lines.xlsx");
+        List<ReportForTimeDto> recordsForReport = recordService.getRecordsForReport(start, end);
+        List<List<ReportForTimeDto>> report = getReport(recordsForReport);
         ByteArrayInputStream stream = ExcelReportForTimeReport.toExcelFile(report, start, end);
         IOUtils.copy(stream, response.getOutputStream());
     }
