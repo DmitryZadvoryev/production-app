@@ -6,10 +6,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.zadvoryev.productionapp.converter.UserConverter;
 import ru.zadvoryev.productionapp.data.User;
 import ru.zadvoryev.productionapp.dto.UserDto;
 import ru.zadvoryev.productionapp.repository.UserRepository;
-import ru.zadvoryev.productionapp.converter.UserConverter;
 
 import javax.persistence.NoResultException;
 import java.util.Collections;

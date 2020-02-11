@@ -1,10 +1,8 @@
 package ru.zadvoryev.productionapp.util;
 
 import org.springframework.stereotype.Service;
-import ru.zadvoryev.productionapp.dto.ProductivityDto;
 import ru.zadvoryev.productionapp.dto.ReportForTimeDto;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,21 +40,6 @@ public class ReportUtil {
                 records.get(0).setQuantity(records.get(0).getQuantity() + records.get(j).getQuantity());
             }
             sum.add(records.get(0));
-        }
-        return sum;
-    }
-
-    public static float getAverageDailyOutput(LocalTime start, LocalTime end, int quantity) {
-        LocalTime time = end.minusHours(start.getHour()).withMinute(start.getMinute());
-        float minutes = time.getHour() * 60.0f + time.getMinute();
-        float result = quantity / minutes * 60;
-        return result;
-    }
-
-    public static float getPeriodAvg(List<ProductivityDto> records) {
-        float sum = 0;
-        for (ProductivityDto record : records) {
-            sum = +record.getAvgQuantityPerHour();
         }
         return sum;
     }

@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ru.zadvoryev.productionapp.data.Record;
-import ru.zadvoryev.productionapp.dto.DistinctProductDto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,15 +26,16 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
 
     /**
      * Фильтр, поиск записей по параметрам
-     * @param id - ид линии
-     * @param start - нач дата
-     * @param end - кон дата
+     *
+     * @param id                 - ид линии
+     * @param start              - нач дата
+     * @param end                - кон дата
      * @param nameOfOrganization - наименование организации
-     * @param nameOfProduct - наименования изделия
-     * @param variant - вариант исполнения
-     * @param side - сторона изделия
-     * @param surname - фамилия исполнителя
-     * @param pageable - пагинация
+     * @param nameOfProduct      - наименования изделия
+     * @param variant            - вариант исполнения
+     * @param side               - сторона изделия
+     * @param surname            - фамилия исполнителя
+     * @param pageable           - пагинация
      * @return постраничный список
      */
     @Query(value = "select record.* from record" +
@@ -60,25 +60,5 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
             String surname,
             Pageable pageable
     );
-
-    @Query(value = "select distinct new ru.zadvoryev.productionapp.dto.DistinctProductDto(" +
-            "record.nameOfProduct, record.variant, record.side) from Record record")
-    List<DistinctProductDto> getDistinctRecords();
-
-
-    /**
-     *
-     * @param start
-     * @param end
-     * @param lineId
-     * @param nameOfProduction
-     * @param variant
-     * @param side
-     * @return
-     */
-    @Query(value = "select record.* from record where record.date between ?1 and ?2 and record.line_id = ?3 and record.name_of_product = ?4 " +
-            "and record.variant = ?5 and record.side = ?6", nativeQuery = true)
-    List<Record> getRecordsForProductivityReport(LocalDate start, LocalDate end, long lineId, String nameOfProduction,
-                                                 String variant, String side);
 
 }

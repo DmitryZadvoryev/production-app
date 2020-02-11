@@ -27,10 +27,6 @@
                    th:href="@{/reports/report-for-time}">Отчет
                     за период</a>
             </h5>
-            <h5 th:if="${#authentication.authorities.contains(admin)}">
-                <a class="list-group-item list-group-item-action list-group-item-primary m-2 p-3"
-                   th:href="@{/reports/productivity}">Выработка</a>
-            </h5>
         </div>
         <div class="col">
             <h5 th:if="${#authentication.authorities.contains(admin)}">

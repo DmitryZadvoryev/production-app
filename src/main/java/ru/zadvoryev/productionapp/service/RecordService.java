@@ -4,14 +4,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.zadvoryev.productionapp.converter.ProductivityConverter;
 import ru.zadvoryev.productionapp.converter.RecordConverter;
 import ru.zadvoryev.productionapp.converter.ReportForTimeConverter;
 import ru.zadvoryev.productionapp.data.Line;
 import ru.zadvoryev.productionapp.data.Record;
 import ru.zadvoryev.productionapp.data.User;
-import ru.zadvoryev.productionapp.dto.DistinctProductDto;
-import ru.zadvoryev.productionapp.dto.ProductivityDto;
 import ru.zadvoryev.productionapp.dto.RecordDto;
 import ru.zadvoryev.productionapp.dto.ReportForTimeDto;
 import ru.zadvoryev.productionapp.repository.LineRepository;
@@ -29,17 +26,17 @@ public class RecordService {
 
     final LineRepository lineRepository;
 
-    final ProductivityConverter productivityConverter;
-
     final ReportForTimeConverter reportForTimeConverter;
 
     final RecordConverter recordConverter;
 
-    public RecordService(RecordConverter converter, RecordRepository recordRepository, LineRepository lineRepository, ProductivityConverter productivityConverter, ReportForTimeConverter reportForTimeConverter) {
+    public RecordService(RecordConverter converter,
+                         RecordRepository recordRepository,
+                         LineRepository lineRepository,
+                         ReportForTimeConverter reportForTimeConverter) {
         this.recordConverter = converter;
         this.recordRepository = recordRepository;
         this.lineRepository = lineRepository;
-        this.productivityConverter = productivityConverter;
         this.reportForTimeConverter = reportForTimeConverter;
     }
 
@@ -108,34 +105,6 @@ public class RecordService {
         recordRepository.deleteById(id);
     }
 
-    @Transactional
-    public List<ProductivityDto> getRecordsForProductivityReport(LocalDate start,
-                                                                 LocalDate end,
-                                                                 long lineId,
-                                                                 String nameOfProduction,
-                                                                 String variant,
-                                                                 String side) {
-        try {
-            List<Record> records = recordRepository.getRecordsForProductivityReport(start,
-                    end,
-                    lineId,
-                    nameOfProduction,
-                    variant,
-                    side);
-            return productivityConverter.createFromEntities(records);
-        } catch (NoResultException e) {
-            return Collections.emptyList();
-        }
-    }
-
-    @Transactional
-    public List<DistinctProductDto> getDistinctRecordsList() {
-        try {
-            return recordRepository.getDistinctRecords();
-        } catch (NoResultException e) {
-            return Collections.emptyList();
-        }
-    }
 
     @Transactional
     public List<ReportForTimeDto> getRecordsForReport(LocalDate start, LocalDate end) {

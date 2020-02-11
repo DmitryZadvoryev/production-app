@@ -14,7 +14,9 @@ import java.util.List;
 @Component
 public class ExcelReportForTimeReport {
 
-    public static ByteArrayInputStream toExcelFile(List<List<ReportForTimeDto>> list, LocalDate startDate, LocalDate endDate) throws IOException {
+    public static ByteArrayInputStream toExcelFile(List<List<ReportForTimeDto>> list,
+                                                   LocalDate startDate,
+                                                   LocalDate endDate) throws IOException {
         String start = startDate.toString();
         String end = endDate.toString();
         try (Workbook workbook = new XSSFWorkbook()) {

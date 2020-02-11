@@ -33,6 +33,7 @@ public class LineService {
             return Collections.emptyList();
         }
     }
+
     @Transactional
     public LineDto getOne(long id) {
         try {
@@ -42,11 +43,13 @@ public class LineService {
             return null;
         }
     }
+
     @Transactional
     public void createOrUpdate(LineDto lineDto) {
         Line line = converter.convertFromDto(lineDto);
         lineRepository.save(line);
     }
+
     @Transactional
     public void delete(long id) {
         lineRepository.deleteById(id);
