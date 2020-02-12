@@ -27,8 +27,8 @@
             <td><span th:text="${line.name}"/></td>
         <td>
              <span>
-                 <a  th:href="@{lines/line-update/{id}(id=${line.id})}">Редактировать</a>
-                 <a  th:href="@{lines/line-delete/{id}(id=${line.id})}">Удалить</a>
+                 <a class="badge badge-danger" th:href="@{lines/line-update/{id}(id=${line.id})}">Редактировать</a>
+                 <a class="badge badge-danger" th:href="@{lines/line-delete/{id}(id=${line.id})}">Удалить</a>
              </span>
         </td>
         </tr>

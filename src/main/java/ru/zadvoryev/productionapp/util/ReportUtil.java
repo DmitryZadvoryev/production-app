@@ -1,6 +1,6 @@
 package ru.zadvoryev.productionapp.util;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import ru.zadvoryev.productionapp.dto.ReportForTimeDto;
 
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@Component
 public class ReportUtil {
 
     public static List<List<ReportForTimeDto>> getReport(List<ReportForTimeDto> recordsForReport) {
@@ -18,9 +18,9 @@ public class ReportUtil {
                 .stream().collect(Collectors.toList());
         for (List<ReportForTimeDto> item : list) {
             List<List<ReportForTimeDto>> sort = item.stream().collect(Collectors.groupingBy(record -> Arrays.asList(
-                    record.getNamePr(),
-                    record.getVar(),
-                    record.getSide())))
+                    record.getNamePr().trim().toLowerCase().replaceAll(" ", ""),
+                    record.getVar().trim().toLowerCase().replaceAll(" ", ""),
+                    record.getSide().trim().toLowerCase().replaceAll(" ", ""))))
                     .values().stream().collect(Collectors.toList());
 
             List<ReportForTimeDto> sum = sum(sort);

@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Component
-public class ExcelReportForTimeReport {
+public class ExcelReportForTime {
 
     public static ByteArrayInputStream toExcelFile(List<List<ReportForTimeDto>> list,
                                                    LocalDate startDate,
