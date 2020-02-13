@@ -38,14 +38,15 @@ public class RecordDto implements Serializable {
     private String side;
 
     @Min(value = 1, message = "Заполните поле!")
-    private int quantity ;
+    private int quantity;
 
     private LineDto line;
 
     private UserDto author;
 
 
-    public RecordDto() {}
+    public RecordDto() {
+    }
 
 
     public Long getId() {

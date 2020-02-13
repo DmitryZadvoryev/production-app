@@ -78,7 +78,7 @@ public class ReportController {
                               HttpServletResponse response) throws IOException {
 
         response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment; filename=report_all_lines.xlsx");
+        response.setHeader("Content-Disposition", "attachment; filename=щ");
         List<ReportForTimeDto> recordsForReport = recordService.getRecordsForReport(start, end);
         List<List<ReportForTimeDto>> report = getReport(recordsForReport);
         ByteArrayInputStream stream = ExcelReportForTime.toExcelFile(report, start, end);

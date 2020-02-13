@@ -1,10 +1,9 @@
 package ru.zadvoryev.productionapp.dto;
 
-import org.jetbrains.annotations.NotNull;
 import ru.zadvoryev.productionapp.data.Record;
 
 import java.io.Serializable;
-import java.util.Comparator;
+import java.util.Objects;
 
 public class ReportForTimeDto implements Serializable {
 
@@ -86,6 +85,25 @@ public class ReportForTimeDto implements Serializable {
 
     public void setLineName(String lineName) {
         this.lineName = lineName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ReportForTimeDto)) return false;
+        ReportForTimeDto that = (ReportForTimeDto) o;
+        return getQuantity() == that.getQuantity() &&
+                Objects.equals(getNameOrg(), that.getNameOrg()) &&
+                Objects.equals(manePr, that.manePr) &&
+                Objects.equals(getVar(), that.getVar()) &&
+                Objects.equals(getSide(), that.getSide()) &&
+                Objects.equals(getLineId(), that.getLineId()) &&
+                Objects.equals(getLineName(), that.getLineName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getNameOrg(), manePr, getVar(), getQuantity(), getSide(), getLineId(), getLineName());
     }
 
     @Override

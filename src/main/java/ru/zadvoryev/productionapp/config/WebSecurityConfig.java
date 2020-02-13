@@ -40,23 +40,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
     }
 
-    /**
-     *
-     @Override protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-     auth.jdbcAuthentication()
-     .dataSource(dataSource)
-     .passwordEncoder(NoOpPasswordEncoder.getInstance())
-     .usersByUsernameQuery("select username, password, true from usr where username=?")
-     .authoritiesByUsernameQuery("select username, password from usr where username=?");
-     }
-     */
-
-    /**
-     * @Bean public PasswordEncoder bcryptPasswordEncoder() {
-     * return new BCryptPasswordEncoder();
-     * }
-     */
-
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth

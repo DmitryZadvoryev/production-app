@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="/static/style.css" >
-    <link rel="stylesheet" href="/static/bootstrap.min.css" >
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Добавление записи</title>
 </head>
 <body>
 <div th:insert="fragment/navbar :: navbar"/>
 <div id="content" class="container-fluid">
-    <form action="#" th:action="@{/users/user-update}"th:object="${user}" method="post">
+    <form action="#" th:action="@{/users/user-update}" th:object="${user}" method="post">
         <input hidden type="number" th:field="*{id}" id="id">
         <div class="form-row">
             <label for="username">Логин</label>
@@ -43,14 +43,15 @@
                    th:errors="*{surname}"></p>
             </div>
         </div>
-       <div class="form-row">
-           <div class="form-group col-md-4">
-               <label for="role">Роли:</label>
-               <span th:each="role : ${allRoles}">
-                    <label class="ml-4"  for="role" th:text = "${role}"></label>
-                <input type="checkbox" id="role" th:name="role" th:value="${role}" th:checked="${#lists.contains(user.roles, role)}">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="role">Роли:</label>
+                <span th:each="role : ${allRoles}">
+                    <label class="ml-4" for="role" th:text="${role}"></label>
+                <input type="checkbox" id="role" th:name="role" th:value="${role}"
+                       th:checked="${#lists.contains(user.roles, role)}">
                 </span>
-           </div>
+            </div>
         </div>
         <button class="btn btn-primary" type="submit" value="Добавить пользователя">Обновить пользователя</button>
     </form>

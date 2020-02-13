@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 /**
  * Паттерн конвертер
  * Из entity в dto, и наоборот
+ *
  * @param <T> Entity
  * @param <U> Dto
  */

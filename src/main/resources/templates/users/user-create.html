@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="/static/style.css" >
-    <link rel="stylesheet" href="/static/bootstrap.min.css" >
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Добавление пользователя</title>
 </head>
@@ -47,7 +47,7 @@
             <div class="form-group col-md-4">
                 <label for="role">Роли:</label>
                 <span th:each="role : ${allRoles}">
-                    <label class="ml-4"  for="role" th:text = "${role}"></label>
+                    <label class="ml-4" for="role" th:text="${role}"></label>
                 <input type="checkbox" id="role" th:name="role" th:value="${role}">
                 </span>
             </div>
@@ -56,7 +56,7 @@
             <p th:if="${#fields.hasErrors('roles')}" class="alert alert-danger"
                th:errors="*{roles}"></p>
         </div>
-        <button class="btn btn-primary" type="submit" value="Добавить пользователя">Добавить пользователя</button>
+        <button class="btn btn-primary" type="submit" value="Добавить пользователя">Добавить</button>
     </form>
 </div>
 </body>

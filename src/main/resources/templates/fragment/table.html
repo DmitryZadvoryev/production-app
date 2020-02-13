@@ -27,7 +27,7 @@
             <td colspan="10" align="center"><h3>Нет записей</h3></td>
         </tr>
         <tr th:each="record : ${page.content}">
-             <td><span th:text="${#temporals.format(record.date,'dd-MM-yyyy')}"></span></td>
+            <td><span th:text="${#temporals.format(record.date,'dd-MM-yyyy')}"></span></td>
 
             <td><span th:text="${record.startTime}"> </span></td>
             <td><span th:text="${record.endTime}"> </span></td>

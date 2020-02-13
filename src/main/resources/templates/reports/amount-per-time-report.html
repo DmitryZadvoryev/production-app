@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+>
 <head>
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="/static/bootstrap.min.css">
@@ -14,12 +14,12 @@
             <input class="form-control col-1 ml-2 mr-2" th:value="${start}" type="date" name="start" id="start"
                    placeholder="Дата">
             <input class="form-control col-1 mr-2" th:value="${end}" type="date" name="end" id="end" placeholder="Дата">
-            <input type="submit" value="Найти">
+            <input type="submit" value="Получить отчет">
         </div>
     </form>
     <div th:if="${not #lists.isEmpty(list)}">
-        <a th:href="@{/reports/report-for-time/download-excel?start={start}&end={end}&type=excel(start=${start}, end=${end})}" style="float:right;"><img th:src="@{/images/excel.png}" style="width: 40px"></a>
-        <!--<a th:href="@{/reports/report-for-time?start={start}&end={end}&type=pdf(start=${start}, end=${end})}" style="float:right;"><img th:src="@{/images/pdf.png}" style="width: 40px"></a>-->
+        <a th:href="@{/reports/report-for-time/download-excel?start={start}&end={end}&type=excel(start=${start}, end=${end})}"
+           style="float:right;"><img th:src="@{/images/excel.png}" style="width: 40px"></a>
     </div>
     <div th:each="item : ${list}">
         <table class="table table-sm table-striped table-bordered">

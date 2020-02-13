@@ -1,33 +1,31 @@
 package ru.zadvoryev.productionapp.dto;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import ru.zadvoryev.productionapp.data.Role;
 
-import javax.persistence.Column;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Objects;
 
 public class UserDto implements Serializable {
 
     private Long id;
 
-    @Size(min=3, max=15)
+    @Size(min = 3, max = 15, message = "Логин должен содержать от 3 до 15 символов!")
     private String username;
 
-    @Size(min=3, max=15)
+    @Size(min = 3, max = 15, message = "Пароль должен содержать от 3 до 15 символов!")
     private String password;
 
-    @Size(min=3, max=50)
+    @Size(min = 1, max = 25, message = "Имя должно содержать от 1 до 25 символов!")
     private String name;
 
-    @Size(min=3, max=50)
+    @Size(min = 1, max = 25, message = "Фамилия должна содержать от 1 до 25 символов!")
     private String surname;
 
-    @Size(min = 1)
+    @Size(min = 1, message = "Выбирите роль пользователя!")
+    @NotNull
     private Collection<Role> roles;
 
     public UserDto(Long id,
@@ -91,6 +89,25 @@ public class UserDto implements Serializable {
 
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserDto)) return false;
+        UserDto userDto = (UserDto) o;
+        return Objects.equals(getId(), userDto.getId()) &&
+                Objects.equals(getUsername(), userDto.getUsername()) &&
+                Objects.equals(getPassword(), userDto.getPassword()) &&
+                Objects.equals(getName(), userDto.getName()) &&
+                Objects.equals(getSurname(), userDto.getSurname()) &&
+                Objects.equals(getRoles(), userDto.getRoles());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getUsername(), getPassword(), getName(), getSurname(), getRoles());
     }
 
     @Override

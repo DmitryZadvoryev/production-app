@@ -5,6 +5,7 @@ import ru.zadvoryev.productionapp.data.Record;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 public class LineDto implements Serializable {
 
@@ -43,6 +44,21 @@ public class LineDto implements Serializable {
 
     public void setRecords(List<Record> records) {
         this.records = records;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LineDto)) return false;
+        LineDto lineDto = (LineDto) o;
+        return Objects.equals(getId(), lineDto.getId()) &&
+                Objects.equals(getName(), lineDto.getName()) &&
+                Objects.equals(getRecords(), lineDto.getRecords());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getRecords());
     }
 
     @Override

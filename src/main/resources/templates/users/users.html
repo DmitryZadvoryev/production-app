@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="/static/style.css" >
-    <link rel="stylesheet" href="/static/bootstrap.min.css" >
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Пользователи</title>
 </head>
@@ -36,7 +36,6 @@
             <td><span th:text="${user.name}">  </span></td>
             <td><span th:text="${user.surname}"></span></td>
             <td><span th:text="${user.roles}"></span></td>
-            <!--<div sec:authorize="hasRole('ADMIN')">-->
             <td>
              <span th:if="${#authentication.authorities.contains(admin)}">
                  <a class="badge badge-danger" th:href="@{/users/user-update/{id}(id=${user.id})}">Редактировать</a>

@@ -46,9 +46,9 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/user-create")
-    public String create(@RequestParam(value = "role", required = false) Collection<Role> roles,
+    public String create(@RequestParam(value = "role") Collection<Role> roles,
                          @Valid @ModelAttribute("user") UserDto user,
-                         BindingResult bindingResult) {
+                         BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "users/user-create";
         }
@@ -68,9 +68,9 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/user-update")
-    public String updateUser(@RequestParam(value = "role", required = false) Collection<Role> roles,
+    public String updateUser(@RequestParam(value = "role") Collection<Role> roles,
                              @Valid @ModelAttribute("user") UserDto user,
-                             BindingResult bindingResult) {
+                             BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "users/user-update";
         }

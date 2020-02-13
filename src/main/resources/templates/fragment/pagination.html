@@ -6,20 +6,20 @@
 </head>
 <body>
 <div th:if="${!page.isEmpty()}" th:fragment="pagination(line, page)">
-<ul class="pagination pagination-lg">
+    <ul class="pagination pagination-lg">
     <span th:if="${page.hasPrevious()}">
         <a th:href="@{/lines/line/{line}(line=${line.id},page=${page.number-1},size=${page.size})}">Previous</a>
-    </span >
-    <th:block th:each="i: ${#numbers.sequence(0, page.totalPages - 1)}">
-        <span th:if="${page.number == i}" class="selected">[[${i}+1]]</span>
-        <span th:unless="${page.number == i}">
+    </span>
+        <th:block th:each="i: ${#numbers.sequence(0, page.totalPages - 1)}">
+            <span th:if="${page.number == i}" class="selected">[[${i}+1]]</span>
+            <span th:unless="${page.number == i}">
              <a th:href="@{/lines/line/{line}(line=${line.id},page=${i},size=${page.size})}">[[${i}+1]]</a>
         </span>
-    </th:block>
-    <span th:if="${page.hasNext()}">
+        </th:block>
+        <span th:if="${page.hasNext()}">
         <a th:href="@{/lines/line/{line}(line=${line.id},page=${page.number+1},size=${page.size})}">Next</a>
     </span>
-</ul>
+    </ul>
 </div>
 </body>
 </html>
