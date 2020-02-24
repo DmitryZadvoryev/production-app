@@ -20,9 +20,6 @@ import java.util.List;
 
 import static ru.zadvoryev.productionapp.util.ReportUtil.getReport;
 
-/**
- * Отчеты
- */
 
 @Controller
 @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SUPERIOR')")
@@ -78,7 +75,7 @@ public class ReportController {
                               HttpServletResponse response) throws IOException {
 
         response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment; filename=щ");
+        response.setHeader("Content-Disposition", "attachment; filename=all_lines_report.xlsx");
         List<ReportForTimeDto> recordsForReport = recordService.getRecordsForReport(start, end);
         List<List<ReportForTimeDto>> report = getReport(recordsForReport);
         ByteArrayInputStream stream = ExcelReportForTime.toExcelFile(report, start, end);

@@ -10,6 +10,10 @@ import java.util.stream.Collectors;
 
 @Component
 public class ReportUtil {
+    /**
+     * Отчет
+     * @param recordsForReport список записей
+     */
 
     public static List<List<ReportForTimeDto>> getReport(List<ReportForTimeDto> recordsForReport) {
         List<List<ReportForTimeDto>> result = new ArrayList<>();

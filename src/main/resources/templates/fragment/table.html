@@ -41,8 +41,8 @@
                 <span th:text="${record.author.name}"></span>
             </td>
             <td th:if="${#authentication.authorities.contains(admin)}">
-                <a th:href="@{/lines/line/{line}/record-update/{id}(line=${line.id}, id=${record.id})}">Редактировать</a>
-                <a th:href="@{/lines/line/{line}/record-delete/{id}(line=${line.id}, id=${record.id})}">Удалить</a>
+                <a class="badge badge-danger" th:href="@{/lines/line/{line}/record-update/{id}(line=${line.id}, id=${record.id})}">Редактировать</a>
+                <a class="badge badge-danger" th:href="@{/lines/line/{line}/record-delete/{id}(line=${line.id}, id=${record.id})}">Удалить</a>
             </td>
         </tr>
         </tbody>

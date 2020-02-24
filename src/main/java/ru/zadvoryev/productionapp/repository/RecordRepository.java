@@ -15,7 +15,7 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
 
     Record getRecordById(long id);
 
-    @Query(value = "select record.* from record where line_id = ?1 order by record.id desc", nativeQuery = true)
+    @Query(value = "select record.* from record where line_id = ?1", nativeQuery = true)
     Page<Record> getRecordsPageable(Long id, Pageable pageable);
 
     @Query(value = "select record.* from record where " +
@@ -47,7 +47,6 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
             " and record.variant like %?6%" +
             " and record.side like %?7%" +
             " and usr.surname like %?8%" +
-            " order by record.id desc" +
             " \n-- #pageable\n ", nativeQuery = true)
     Page<Record> filter(
             long id,
