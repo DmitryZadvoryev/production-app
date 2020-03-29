@@ -5,7 +5,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.zadvoryev.productionapp.converter.UserConverter;
 import ru.zadvoryev.productionapp.data.User;
 import ru.zadvoryev.productionapp.dto.UserDto;
@@ -27,13 +26,11 @@ public class UserService implements UserDetailsService {
         this.converter = converter;
     }
 
-    @Transactional
     @Override
     public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
         return userRepository.findUserByUsername(username);
     }
 
-    @Transactional
     public List<UserDto> getAllUsers() {
         try {
             List<User> users = userRepository.findAll();
@@ -43,7 +40,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    @Transactional
+
     public UserDto findById(long id) {
         try {
             User user = userRepository.getOne(id);
@@ -53,13 +50,12 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    @Transactional
+
     public void createOrUpdate(UserDto userDto) {
         User user = converter.convertFromDto(userDto);
         userRepository.save(user);
     }
 
-    @Transactional
     public void delete(long id) {
         userRepository.deleteById(id);
     }

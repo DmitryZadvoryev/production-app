@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.zadvoryev.productionapp.dto.ReportForTimeDto;
-import ru.zadvoryev.productionapp.util.ExcelReportForTime;
 import ru.zadvoryev.productionapp.service.RecordService;
+import ru.zadvoryev.productionapp.util.ExcelReportForTime;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
@@ -75,7 +75,7 @@ public class ReportController {
                               HttpServletResponse response) throws IOException {
 
         response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment; filename=all_lines_report.xlsx");
+        response.setHeader("Content-Disposition", "attachment; filename = all_lines_report.xlsx");
         List<ReportForTimeDto> recordsForReport = recordService.getRecordsForReport(start, end);
         List<List<ReportForTimeDto>> report = getReport(recordsForReport);
         ByteArrayInputStream stream = ExcelReportForTime.toExcelFile(report, start, end);

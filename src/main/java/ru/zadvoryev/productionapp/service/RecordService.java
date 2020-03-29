@@ -3,7 +3,6 @@ package ru.zadvoryev.productionapp.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.zadvoryev.productionapp.converter.RecordConverter;
 import ru.zadvoryev.productionapp.converter.ReportForTimeConverter;
 import ru.zadvoryev.productionapp.data.Line;
@@ -40,7 +39,6 @@ public class RecordService {
         this.reportForTimeConverter = reportForTimeConverter;
     }
 
-    @Transactional
     public Page<RecordDto> list(long id, Pageable pageable) {
         try {
             Page<Record> records = recordRepository.getRecordsPageable(id, pageable);
@@ -50,7 +48,6 @@ public class RecordService {
         }
     }
 
-    @Transactional
     public Page<RecordDto> filter(long id,
                                   LocalDate start,
                                   LocalDate end,
@@ -76,7 +73,6 @@ public class RecordService {
         }
     }
 
-    @Transactional
     public void update(RecordDto recordDto) {
         Record record = recordConverter.convertFromDto(recordDto);
         Record recordById = recordRepository.getRecordById(recordDto.getId());
@@ -90,7 +86,6 @@ public class RecordService {
         return recordConverter.convertFromEntity(record);
     }
 
-    @Transactional
     public void create(RecordDto recordDto, User author, long id) {
 
         Record record = recordConverter.convertFromDto(recordDto);
@@ -100,13 +95,10 @@ public class RecordService {
         recordRepository.save(record);
     }
 
-    @Transactional
     public void delete(long id) {
         recordRepository.deleteById(id);
     }
 
-
-    @Transactional
     public List<ReportForTimeDto> getRecordsForReport(LocalDate start, LocalDate end) {
         try {
             List<Record> recordsForReport = recordRepository.getRecordsBetweenDate(start, end);

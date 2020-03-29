@@ -1,7 +1,6 @@
 package ru.zadvoryev.productionapp.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.zadvoryev.productionapp.converter.LineConverter;
 import ru.zadvoryev.productionapp.data.Line;
 import ru.zadvoryev.productionapp.dto.LineDto;
@@ -23,8 +22,6 @@ public class LineService {
         this.converter = converter;
     }
 
-
-    @Transactional
     public List<LineDto> list() {
         try {
             List<Line> all = lineRepository.findAll();
@@ -34,7 +31,6 @@ public class LineService {
         }
     }
 
-    @Transactional
     public LineDto getOne(long id) {
         try {
             Line line = lineRepository.getOne(id);
@@ -44,13 +40,11 @@ public class LineService {
         }
     }
 
-    @Transactional
     public void createOrUpdate(LineDto lineDto) {
         Line line = converter.convertFromDto(lineDto);
         lineRepository.save(line);
     }
 
-    @Transactional
     public void delete(long id) {
         lineRepository.deleteById(id);
     }
