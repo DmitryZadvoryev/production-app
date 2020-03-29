@@ -37,7 +37,6 @@ public class ReportController {
      *
      * @param start - начальная дата
      * @param end   - конечная дата
-     * @param model
      * @return записи от начальной даты до конечной
      */
 
@@ -61,11 +60,6 @@ public class ReportController {
 
     /**
      * Скачивание файла report-all-lines.xlsx
-     *
-     * @param start
-     * @param end
-     * @param response
-     * @throws IOException
      */
     @GetMapping("/report-for-time/download-excel")
     public void downloadExcel(@RequestParam(name = "start", required = false)

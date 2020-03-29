@@ -48,7 +48,6 @@ public class RecordController {
      * @param side               - сторона изделия
      * @param surname            - фамилия исполнителя
      * @param pageable           - пагинация
-     * @param model
      * @return line/lines - страница линии со списком изделий,
      */
     @GetMapping("{lineId}")
@@ -132,7 +131,6 @@ public class RecordController {
      *
      * @param lineId - ид линии к которой относятся записи
      * @param id     -  ид записи редактироуемой
-     * @param model
      * @return страница для обновления
      */
 
@@ -152,7 +150,6 @@ public class RecordController {
      * @param lineId        - ид линии к которой относятся записи
      * @param record        - класс запись
      * @param bindingResult - валидация
-     * @param model
      * @return перенаправляет страницу с записями для линии с id
      */
 

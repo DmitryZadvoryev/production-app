@@ -20,7 +20,7 @@ public class ExcelReportForTime {
         String start = startDate.toString();
         String end = endDate.toString();
         try (Workbook workbook = new XSSFWorkbook()) {
-            Sheet sheet = workbook.createSheet("Productions" + start + "-" + end);
+            Sheet sheet = workbook.createSheet("Продукция" + start + "-" + end);
 
             Row row = sheet.createRow(0);
             CellStyle headerCellStyle = workbook.createCellStyle();
