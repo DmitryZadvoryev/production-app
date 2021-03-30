@@ -23,21 +23,13 @@ public class LineService {
     }
 
     public List<LineDto> list() {
-        try {
             List<Line> all = lineRepository.findAll();
             return converter.createFromEntities(all);
-        } catch (NoResultException e) {
-            return Collections.emptyList();
-        }
     }
 
-    public LineDto getOne(long id) {
-        try {
+    public LineDto getOne(long id) { 
             Line line = lineRepository.getOne(id);
             return converter.convertFromEntity(line);
-        } catch (NoResultException e) {
-            return null;
-        }
     }
 
     public void createOrUpdate(LineDto lineDto) {
