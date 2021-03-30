@@ -32,22 +32,14 @@ public class UserService implements UserDetailsService {
     }
 
     public List<UserDto> getAllUsers() {
-        try {
             List<User> users = userRepository.findAll();
             return converter.createFromEntities(users);
-        } catch (NoResultException e) {
-            return Collections.emptyList();
-        }
     }
 
 
     public UserDto findById(long id) {
-        try {
             User user = userRepository.getOne(id);
             return converter.convertFromEntity(user);
-        } catch (NoResultException e) {
-            return null;
-        }
     }
 
 
