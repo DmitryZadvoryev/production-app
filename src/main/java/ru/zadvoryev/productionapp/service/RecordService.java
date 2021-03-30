@@ -40,12 +40,8 @@ public class RecordService {
     }
 
     public Page<RecordDto> list(long id, Pageable pageable) {
-        try {
             Page<Record> records = recordRepository.getRecordsPageable(id, pageable);
             return recordConverter.createFromEntities(records, pageable);
-        } catch (NoResultException e) {
-            return Page.empty(pageable);
-        }
     }
 
     public Page<RecordDto> filter(long id,
@@ -57,7 +53,6 @@ public class RecordService {
                                   String side,
                                   String surname,
                                   Pageable pageable) {
-        try {
             Page<Record> records = recordRepository.filter(id,
                     start,
                     end,
@@ -68,9 +63,6 @@ public class RecordService {
                     surname,
                     pageable);
             return recordConverter.createFromEntities(records, pageable);
-        } catch (NoResultException e) {
-            return Page.empty(pageable);
-        }
     }
 
     public void update(RecordDto recordDto) {
@@ -100,12 +92,8 @@ public class RecordService {
     }
 
     public List<ReportForTimeDto> getRecordsForReport(LocalDate start, LocalDate end) {
-        try {
             List<Record> recordsForReport = recordRepository.getRecordsBetweenDate(start, end);
             List<ReportForTimeDto> fromEntities = reportForTimeConverter.createFromEntities(recordsForReport);
             return fromEntities;
-        } catch (NoResultException e) {
-            return Collections.emptyList();
-        }
     }
 }
