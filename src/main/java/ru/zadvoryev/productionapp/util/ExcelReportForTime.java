@@ -3,7 +3,7 @@ package ru.zadvoryev.productionapp.util;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
-import ru.zadvoryev.productionapp.dto.ReportForTimeDto;
+import ru.zadvoryev.productionapp.dto.ReportDto;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -14,9 +14,9 @@ import java.util.List;
 @Component
 public class ExcelReportForTime {
 
-    public static ByteArrayInputStream toExcelFile(List<List<ReportForTimeDto>> list,
-                                                   LocalDate startDate,
-                                                   LocalDate endDate) throws IOException {
+    public static ByteArrayInputStream toFile(List<List<ReportDto>> list,
+                                              LocalDate startDate,
+                                              LocalDate endDate) throws IOException {
         String start = startDate.toString();
         String end = endDate.toString();
         try (Workbook workbook = new XSSFWorkbook()) {
@@ -50,17 +50,17 @@ public class ExcelReportForTime {
 
             int numRow = 1;
             for (int i = 0; i < list.size(); i++) {
-                List<ReportForTimeDto> reportForTimeDtos = list.get(i);
+                List<ReportDto> reportDtos = list.get(i);
                 Row title = sheet.createRow(numRow++);
-                title.createCell(0).setCellValue(reportForTimeDtos.get(0).getLineName());
-                for (int j = 0; j < reportForTimeDtos.size(); j++) {
+                title.createCell(0).setCellValue(reportDtos.get(0).getLineName());
+                for (int j = 0; j < reportDtos.size(); j++) {
                     Row dataRow = sheet.createRow(numRow++);
-                    ReportForTimeDto reportForTimeDto = reportForTimeDtos.get(j);
-                    dataRow.createCell(0).setCellValue(reportForTimeDto.getNameOrg());
-                    dataRow.createCell(1).setCellValue(reportForTimeDto.getNamePr());
-                    dataRow.createCell(2).setCellValue(reportForTimeDto.getVar());
-                    dataRow.createCell(3).setCellValue(reportForTimeDto.getQuantity());
-                    dataRow.createCell(4).setCellValue(reportForTimeDto.getSide());
+                    ReportDto reportDto = reportDtos.get(j);
+                    dataRow.createCell(0).setCellValue(reportDto.getNameOrg());
+                    dataRow.createCell(1).setCellValue(reportDto.getNamePr());
+                    dataRow.createCell(2).setCellValue(reportDto.getVar());
+                    dataRow.createCell(3).setCellValue(reportDto.getQuantity());
+                    dataRow.createCell(4).setCellValue(reportDto.getSide());
                 }
             }
             sheet.autoSizeColumn(0);

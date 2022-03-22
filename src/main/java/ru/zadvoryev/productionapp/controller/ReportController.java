@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.zadvoryev.productionapp.dto.ReportForTimeDto;
+import ru.zadvoryev.productionapp.dto.ReportDto;
 import ru.zadvoryev.productionapp.service.RecordService;
 import ru.zadvoryev.productionapp.util.ExcelReportForTime;
 
@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
-import static ru.zadvoryev.productionapp.util.ReportUtil.getReport;
+import static ru.zadvoryev.productionapp.util.ReportUtil.createReport;
 
 
 @Controller
@@ -45,11 +45,11 @@ public class ReportController {
                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
                          @RequestParam(name = "end", required = false)
                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end,
-                         Model model) throws IOException {
+                         Model model) {
 
         if (start != null && end != null) {
-            List<ReportForTimeDto> recordsForReport = recordService.getRecordsForReport(start, end);
-            List<List<ReportForTimeDto>> report = getReport(recordsForReport);
+            List<ReportDto> recordsForReport = recordService.getRecords(start, end);
+            List<List<ReportDto>> report = createReport(recordsForReport);
             model.addAttribute("list", report);
         }
 
@@ -70,9 +70,9 @@ public class ReportController {
 
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment; filename = all_lines_report.xlsx");
-        List<ReportForTimeDto> recordsForReport = recordService.getRecordsForReport(start, end);
-        List<List<ReportForTimeDto>> report = getReport(recordsForReport);
-        ByteArrayInputStream stream = ExcelReportForTime.toExcelFile(report, start, end);
+        List<ReportDto> records = recordService.getRecords(start, end);
+        List<List<ReportDto>> report = createReport(records);
+        ByteArrayInputStream stream = ExcelReportForTime.toFile(report, start, end);
         IOUtils.copy(stream, response.getOutputStream());
     }
 }

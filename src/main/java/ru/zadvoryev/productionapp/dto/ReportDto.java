@@ -5,7 +5,7 @@ import ru.zadvoryev.productionapp.data.Record;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class ReportForTimeDto implements Serializable {
+public class ReportDto implements Serializable {
 
     private String nameOrg;
 
@@ -21,7 +21,7 @@ public class ReportForTimeDto implements Serializable {
 
     private String lineName;
 
-    public ReportForTimeDto(Record record) {
+    public ReportDto(Record record) {
         this.nameOrg = record.getNameOfOrganization();
         this.manePr = record.getNameOfProduct();
         this.var = record.getVariant();
@@ -90,8 +90,8 @@ public class ReportForTimeDto implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ReportForTimeDto)) return false;
-        ReportForTimeDto that = (ReportForTimeDto) o;
+        if (!(o instanceof ReportDto)) return false;
+        ReportDto that = (ReportDto) o;
         return getQuantity() == that.getQuantity() &&
                 Objects.equals(getNameOrg(), that.getNameOrg()) &&
                 Objects.equals(manePr, that.manePr) &&

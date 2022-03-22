@@ -4,18 +4,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.zadvoryev.productionapp.converter.RecordConverter;
-import ru.zadvoryev.productionapp.converter.ReportForTimeConverter;
+import ru.zadvoryev.productionapp.converter.ReportConverter;
 import ru.zadvoryev.productionapp.data.Line;
 import ru.zadvoryev.productionapp.data.Record;
 import ru.zadvoryev.productionapp.data.User;
 import ru.zadvoryev.productionapp.dto.RecordDto;
-import ru.zadvoryev.productionapp.dto.ReportForTimeDto;
+import ru.zadvoryev.productionapp.dto.ReportDto;
 import ru.zadvoryev.productionapp.repository.LineRepository;
 import ru.zadvoryev.productionapp.repository.RecordRepository;
 
-import javax.persistence.NoResultException;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -25,23 +23,23 @@ public class RecordService {
 
     final LineRepository lineRepository;
 
-    final ReportForTimeConverter reportForTimeConverter;
+    final ReportConverter reportConverter;
 
     final RecordConverter recordConverter;
 
     public RecordService(RecordConverter converter,
                          RecordRepository recordRepository,
                          LineRepository lineRepository,
-                         ReportForTimeConverter reportForTimeConverter) {
+                         ReportConverter reportConverter) {
         this.recordConverter = converter;
         this.recordRepository = recordRepository;
         this.lineRepository = lineRepository;
-        this.reportForTimeConverter = reportForTimeConverter;
+        this.reportConverter = reportConverter;
     }
 
     public Page<RecordDto> list(long id, Pageable pageable) {
-            Page<Record> records = recordRepository.getRecordsPageable(id, pageable);
-            return recordConverter.createFromEntities(records, pageable);
+        Page<Record> records = recordRepository.getRecordsPageable(id, pageable);
+        return recordConverter.createFromEntities(records, pageable);
     }
 
     public Page<RecordDto> filter(long id,
@@ -53,16 +51,16 @@ public class RecordService {
                                   String side,
                                   String surname,
                                   Pageable pageable) {
-            Page<Record> records = recordRepository.filter(id,
-                    start,
-                    end,
-                    nameOfOrganization,
-                    nameOfProduct,
-                    variant,
-                    side,
-                    surname,
-                    pageable);
-            return recordConverter.createFromEntities(records, pageable);
+        Page<Record> records = recordRepository.filter(id,
+                start,
+                end,
+                nameOfOrganization,
+                nameOfProduct,
+                variant,
+                side,
+                surname,
+                pageable);
+        return recordConverter.createFromEntities(records, pageable);
     }
 
     public void update(RecordDto recordDto) {
@@ -79,7 +77,6 @@ public class RecordService {
     }
 
     public void create(RecordDto recordDto, User author, long id) {
-
         Record record = recordConverter.convertFromDto(recordDto);
         Line line = lineRepository.getOne(id);
         record.setAuthor(author);
@@ -91,9 +88,8 @@ public class RecordService {
         recordRepository.deleteById(id);
     }
 
-    public List<ReportForTimeDto> getRecordsForReport(LocalDate start, LocalDate end) {
-            List<Record> recordsForReport = recordRepository.getRecordsBetweenDate(start, end);
-            List<ReportForTimeDto> fromEntities = reportForTimeConverter.createFromEntities(recordsForReport);
-            return fromEntities;
+    public List<ReportDto> getRecords(LocalDate start, LocalDate end) {
+        List<Record> recordsForReport = recordRepository.getRecordsBetweenDate(start, end);
+        return reportConverter.createFromEntities(recordsForReport);
     }
 }

@@ -25,7 +25,6 @@ import java.time.LocalDate;
 @RequestMapping("/lines/line/")
 public class RecordController {
 
-
     final RecordService recordService;
 
     final LineService lineService;
@@ -127,7 +126,7 @@ public class RecordController {
     }
 
     /**
-     * Форма обновления записи
+     * Форма обновлени записи
      *
      * @param lineId - ид линии к которой относятся записи
      * @param id     -  ид записи редактироуемой
@@ -145,7 +144,7 @@ public class RecordController {
     }
 
     /**
-     * Обновления записи
+     * Обновление записи
      *
      * @param lineId        - ид линии к которой относятся записи
      * @param record        - класс запись
